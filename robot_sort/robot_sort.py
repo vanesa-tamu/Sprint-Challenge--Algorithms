@@ -56,7 +56,7 @@ class SortingRobot:
         This will increment the time counter by 1.
         """
         self._time += 1
-        # Swap the held item with the list item at the robot's position
+        # Swap the item being held with the list's item at the robot's  current position
         self._item, self._list[self._position] = self._list[self._position], self._item
 
     def compare_item(self):
@@ -97,16 +97,53 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        # sort from smallest to greatest using bubble sort
+        # input: list of numbers
+        # output: list of sorted numbers
+
+        while True:
+            print(f'while start loop: {self._list}')
+            # robot picks up first item at index 0
+            self.swap_item()
+            # robot is holding num at index 0:
+            self.move_right()
+            print(f'holding {self._item} & comparing to {self._list[self._position]}')
+            print(f'self.compare: {self.compare_item()}')
+            if self.compare_item() == 1:
+                self.swap_item()
+                self.move_left()
+                self.swap_item()
+                self.move_right()
+
+                self.set_light_on()
+                # self.move_right()
+                print(f'what is robot holding now? {self._item}') # robot is holding None
+            else:
+                # swap current item with left item
+                self.move_left()
+                self.swap_item()
+                self.move_right()
+                print(f'what is robot holding now? {self._item}')  # robot is holding None
+            if not self.can_move_right():  # to start at the beginning of the list to
+                # iterate through the list again to get next big int etc.
+                if self.light_is_on():
+                    self.set_light_off()
+                    while self.can_move_left():
+                        self.move_left()
+                else:
+                    break
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
+    list2 = [15, 1, 7, 49, 26, 4, 28, 8]
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    list1 = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
-    robot = SortingRobot(l)
+    large_varied_list = [1, -38, -95, 4, 23, -73, -65, -36, 85, 2, 58, -26, -55, 96, 55, -76, 64, 45, 69, 36, 69, 47, 29, -47, 13, 89, -57, -88, -87, 54, 60, 56, -98, -78, 59, 93, -41, -74, 73, -35, -23]
+    # robot = SortingRobot(list1)
+    robot = SortingRobot(large_varied_list)
 
     robot.sort()
     print(robot._list)
