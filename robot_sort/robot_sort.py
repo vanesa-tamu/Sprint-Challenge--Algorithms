@@ -97,7 +97,32 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        while True:
+            # robot picks up first item at index 0
+            self.swap_item()
+            # robot is holding num at index 0:
+            self.move_right()
+            if self.compare_item() == 1:
+                self.swap_item()
+                self.move_left()
+                self.swap_item()
+                self.move_right()
+
+                self.set_light_on()
+            else:
+                # swap current item with left item
+                self.move_left()
+                self.swap_item()
+                self.move_right()
+                print(f'what is robot holding now? {self._item}')  # robot is holding None
+            if not self.can_move_right():  # to start at the beginning of the list to
+                # iterate through the list again to get next big int etc.
+                if self.light_is_on():
+                    self.set_light_off()
+                    while self.can_move_left():
+                        self.move_left()
+                else:
+                    break
 
 
 if __name__ == "__main__":
